@@ -64,6 +64,10 @@ elseif (substr($domain, -3) === ".pl") {
     $whois_server = "whois.dns.pl";
     $query_string = $domain;
 } 
+elseif (substr($domain, -4) === ".dev") {
+  $whois_server = "whois.nic.google";
+  $query_string = $domain;
+}
 elseif (substr($domain, -3) === ".fr") {
     $whois_server = "whois.nic.fr";
     $query_string = $domain;
