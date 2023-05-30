@@ -18,6 +18,21 @@ Das Skript benötigt eine funktionierende PHP-Installation auf dem Server. Es we
 3. Klicken Sie auf die Schaltfläche "Abfragen".
 4. Das Skript führt eine WHOIS-Abfrage für die eingegebene Domain oder IP-Adresse durch und zeigt die Ergebnisse auf der Seite an.
 
+Es ist möglich, Query-Strings auch für Domains und IP-Adressen zu nutzen, indem sie einfach der URL angehängt werden, zum Beispiel:
+
+```
+http://example.com/index.php?query=google.com
+http://example.com/index.php?query=8.8.8.8
+```
+
+Wenn Sie weitere Whois-Server hinzufügen wollen, können Sie dies in der whois_domain.php tun, indem Sie einen Codeblock im folgenden Schema einfügen. Sie müssen jedoch die angegebene Zahl je nach Länge der Domain (drei- oder vierstellig mit Punkt) anpassen.
+
+```php
+elseif (substr($domain, -4) === ".net") {
+    $whois_server = "whois.verisign-grs.com";
+    $query_string = "domain " . $domain;
+} 
+```
 ## Anpassung (style.css)
 
 Das Skript verwendet eine separate CSS-Datei, um das Aussehen der Benutzeroberfläche zu steuern. Sie können diese Datei bearbeiten, um das Aussehen der Benutzeroberfläche an Ihre Bedürfnisse anzupassen.
