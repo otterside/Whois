@@ -11,6 +11,9 @@
 	 margin-bottom: 20px;
 	 text-align: center;
 }
+a {
+	 color: inherit;
+}
  form {
 	 background-color: #222;
 	 padding: 20px;
