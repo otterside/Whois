@@ -1,31 +1,31 @@
-# Whois Abfrage
+# WHOIS Query
 
-Dies ist ein einfaches PHP-Skript, das es ermöglicht, WHOIS-Abfragen für Domains oder IP-Adressen durchzuführen. Das Skript stellt eine einfache Benutzeroberfläche zur Verfügung, in der der Benutzer eine Domain oder eine IP-Adresse eingeben kann, um eine WHOIS-Abfrage durchzuführen.
-## Voraussetzungen
+This is a simple PHP script that allows WHOIS queries for domains or IP addresses to be performed. The script provides a simple user interface where the user can enter a domain or IP address to perform a WHOIS query.
+## Requirements
 
-Das Skript benötigt eine funktionierende PHP-Installation auf dem Server. Es werden keine weiteren Abhängigkeiten benötigt. Die Standard-Ports für HTTP (80) und WHOIS (43) müssen auf dem Server geöffnet sein.
+The script requires a working PHP installation on the server. There are no additional dependencies required. The default ports for HTTP (80) and WHOIS (43) must be open on the server.
 ## Installation
 
-1. Laden Sie die Dateien des Skripts herunter und laden Sie sie auf Ihren Server hoch.
-2. Stellen Sie sicher, dass die Dateien in einem für Ihren Webserver zugänglichen Verzeichnis abgelegt wurden.
-3. Stellen Sie sicher, dass der Webserver Schreibrechte für das Verzeichnis hat, in dem das Skript gespeichert ist.
-4. Stellen Sie sicher, dass PHP auf Ihrem Webserver installiert ist.
+1. Download the script files and upload them to your server.
+2. Make sure the files are stored in a directory accessible to your web server.
+3. Ensure that the web server has write access to the directory where the script is stored.
+4. Ensure that PHP is installed on your web server.
 
-## Verwendung
+## Usage
 
-1. Rufen Sie das Skript in Ihrem Webbrowser auf, indem Sie die URL zur Seite aufrufen, auf der das Skript installiert wurde.
-2. Geben Sie die Domain oder die IP-Adresse in das Eingabefeld ein.
-3. Klicken Sie auf die Schaltfläche "Abfragen".
-4. Das Skript führt eine WHOIS-Abfrage für die eingegebene Domain oder IP-Adresse durch und zeigt die Ergebnisse auf der Seite an.
+1. Call up the script in your web browser by accessing the URL of the page where the script is installed.
+2. Enter the domain or IP address in the input field.
+3. Click the "Query" button.
+4. The script performs a WHOIS query for the entered domain or IP address and displays the results on the page.
 
-Es ist möglich, Query-Strings auch für Domains und IP-Adressen zu nutzen, indem sie einfach der URL angehängt werden, zum Beispiel:
+It is possible to use query strings for domains and IP addresses by simply appending them to the URL, for example:
 
 ```
 http://example.com/index.php?query=google.com
 http://example.com/index.php?query=8.8.8.8
 ```
 
-Wenn Sie weitere Whois-Server hinzufügen wollen, können Sie dies in der whois_domain.php tun, indem Sie einen Codeblock im folgenden Schema einfügen. Sie müssen jedoch die angegebene Zahl je nach Länge der Domain (drei- oder vierstellig mit Punkt) anpassen.
+If you want to add more WHOIS servers, you can do so in the whois_domain.php file by adding a code block in the following pattern. However, you need to adjust the specified number according to the length of the domain (three or four digits with a dot).
 
 ```php
 elseif (substr($domain, -4) === ".net") {
@@ -33,17 +33,17 @@ elseif (substr($domain, -4) === ".net") {
     $query_string = "domain " . $domain;
 } 
 ```
-## Anpassung (style.css)
+## Customization (style.css)
 
-Das Skript verwendet eine separate CSS-Datei, um das Aussehen der Benutzeroberfläche zu steuern. Sie können diese Datei bearbeiten, um das Aussehen der Benutzeroberfläche an Ihre Bedürfnisse anzupassen.
-## Hinweise
+The script uses a separate CSS file to control the appearance of the user interface. You can edit this file to customize the look and feel of the user interface to your needs.
+## Notes
 
-Das Skript verwendet die Standard-Ports für HTTP (80) und WHOIS (43). Stellen Sie sicher, dass diese Ports auf Ihrem Server geöffnet sind, damit das Skript ordnungsgemäß funktioniert.
+The script uses the default ports for HTTP (80) and WHOIS (43). Make sure these ports are open on your server for the script to work correctly.
 
-Das Skript ist nur für den privaten Gebrauch bestimmt. Verwenden Sie es nicht für illegale oder unethische Zwecke.
-## Autor
+The script is intended for private use only. Do not use it for illegal or unethical purposes.
+## Author
 
-Dieses Skript wurde von ChatGPT erstellt, einem großen Sprachmodell, das auf der GPT-3.5-Architektur von OpenAI basiert.
-## Lizenz
+This script was created by ChatGPT, a large language model based on the GPT-3.5 architecture by OpenAI.
+## License
 
-Dieses Skript ist unter der MIT-Lizenz veröffentlicht. Eine Kopie der Lizenz finden Sie in der Datei LICENSE.
+This script is released under the MIT license. A copy of the license can be found in the LICENSE file.
