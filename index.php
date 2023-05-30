@@ -7,53 +7,68 @@
   </head>
   <body>
     <h1>Whois Abfrage</h1>
-    <form method="post">
-      <label for="domain">Domain oder IP eingeben:</label>
-      <input type="text" name="domain" id="domain" required>
-      <label for="IP">Deine IP lautet: <?php echo $_SERVER["REMOTE_ADDR"]; ?></label>
-      <input type="submit" name="submit" value="Abfragen">
-    </form>
-    <?php
-      // Set the content type to UTF-8
-      header('Content-type: text/html; charset=utf-8');
-      // Check if form is submitted
-      if (isset($_POST["submit"])) {
-        $domain = $_POST["domain"];
+    <?php if (isset($_GET['query']) && !isset($_GET['submit'])): ?>
+      <form method="get" action="index.php">
+        <label for="query">Domain oder IP eingeben:</label>
+        <input type="text" name="query" id="query" value="<?php echo htmlspecialchars($_GET['query']); ?>" required>
+        <label for="IP">Deine IP lautet: <a href="index.php?query=<?php echo $_SERVER["REMOTE_ADDR"]; ?>"><?php echo $_SERVER["REMOTE_ADDR"]; ?></a></label>
+        <input type="submit" name="" value="Abfragen">
+      </form>
+      <?php
+      $domain = $_GET['query'];
+      if (filter_var($domain, FILTER_VALIDATE_IP)) {
+        include('whois_ip.php');
+        $query_string = $domain;
+      } else {
+        include('whois_domain.php');
+        $query_string = $domain;
+      }
+      $socket = fsockopen($whois_server, 43, $errno, $errstr, 10);
+      if (!$socket) {
+        echo "<p>Fehler beim Verbinden zum Whois-Server: $errno - $errstr</p>";
+        exit();
+      }
+      fwrite($socket, $query_string . "\r\n");
+      $response = "";
+      while (!feof($socket)) {
+        $response .= fgets($socket, 128);
+      }
+      fclose($socket);
+      echo "<div class=\"result\"><pre>" . htmlspecialchars($response) . "</pre></div>";
+      ?>
+    <?php else: ?>
+      <form method="get" action="index.php">
+        <label for="query">Domain oder IP eingeben:</label>
+        <input type="text" name="query" id="query" required>
+        <label for="IP">Deine IP lautet: <a href="index.php?query=<?php echo $_SERVER["REMOTE_ADDR"]; ?>"><?php echo $_SERVER["REMOTE_ADDR"]; ?></a></label>
+        <input type="submit" name="" value="Abfragen">
+      </form>
+      <?php if (isset($_GET['submit'])): ?>
+        <?php
+        $query_string = '';
+        $domain = $_GET['query'];
 
-        // Perform whois query for domains or IP addresses
         if (filter_var($domain, FILTER_VALIDATE_IP)) {
-          // Include the whois_ip.php file for performing the whois query
           include('whois_ip.php');
+          $query_string = $domain;
         } else {
-          // Perform whois query for domains
-          // Include the whois_domain.php file for performing the whois query for domains
           include('whois_domain.php');
+          $query_string = $domain;
         }
-
-        // Connect to whois server
         $socket = fsockopen($whois_server, 43, $errno, $errstr, 10);
         if (!$socket) {
           echo "<p>Fehler beim Verbinden zum Whois-Server: $errno - $errstr</p>";
           exit();
         }
-
-        // Send query string
         fwrite($socket, $query_string . "\r\n");
-
-        // Read response from whois server
         $response = "";
         while (!feof($socket)) {
           $response .= fgets($socket, 128);
         }
-
-        // Close socket connection
         fclose($socket);
-
-        // Display result
-        echo "<div class=\"result\"><pre>" .
-             htmlspecialchars($response) .
-             "</pre></div>";
-      }
-    ?>
+        echo "<div class=\"result\"><pre>" . htmlspecialchars($response) . "</pre></div>";
+        ?>
+      <?php endif; ?>
+    <?php endif; ?>
   </body>
 </html>
