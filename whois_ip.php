@@ -141,7 +141,7 @@ $ip_chunks = explode(".", $domain);
                  ) {
                      $whois_server = "whois.iana.org";
                  } else {
-                     $whois_server = "whois.arin.net";
+                     $whois_server = "whois.ripe.net";
                  }
                  break;
          }
