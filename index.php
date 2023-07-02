@@ -8,6 +8,9 @@
   <body>
     <h1>Whois Abfrage</h1>
     <?php 
+      // Disable PHP error and warning messages
+      error_reporting(0);
+      ini_set('display_errors', 0);
       // Check if the 'query' parameter is set and the 'submit' parameter is not set
       if (isset($_GET['query']) && !isset($_GET['submit'])) {
         // Retrieve the 'query' value from the GET request and store it in the $query variable
@@ -34,6 +37,7 @@
             <option value="whois.apnic.net" <?php if ($server === 'whois.apnic.net') echo 'selected'; ?>>whois.apnic.net (Asien und Pazifikregion)</option>
             <option value="whois.afrinic.net" <?php if ($server === 'whois.afrinic.net') echo 'selected'; ?>>whois.afrinic.net (Afrika)</option>
             <option value="whois.lacnic.net" <?php if ($server === 'whois.lacnic.net') echo 'selected'; ?>>whois.lacnic.net (Lateinamerika und Karibik)</option>
+            <option value="whois.iana.org" <?php if ($server === 'whois.iana.org') echo 'selected'; ?>>whois.iana.org (IP Vergabestelle)</option>
           </select>
           <!-- Display user's IP address and link to query it -->
           <label for="IP">Deine IP lautet: <a href="index.php?query=<?php echo $_SERVER["REMOTE_ADDR"]; ?>"><?php echo $_SERVER["REMOTE_ADDR"]; ?></a></label>
@@ -65,7 +69,7 @@
         $socket = fsockopen($whois_server, 43, $errno, $errstr, 10);
         if (!$socket) {
           // Output an error message if the socket connection fails
-          echo "<p>Fehler beim Verbinden zum Whois-Server: $errno - $errstr</p>";
+          echo "<div class=\"result\"><pre>Fehler beim Verbinden zum Whois-Server: $errno - $errstr</pre></div>";
           exit();
         }
 
@@ -81,6 +85,7 @@
 
         // Output the response in a div container with CSS class "result"
         echo "<div class=\"result\"><pre>" . htmlspecialchars($response) . "</pre></div>";
+        echo "<div class=\"result\"><pre>Whois Server: {$extension} - {$whois_server}\n</pre></div>";
       } else {
         ?>
         <!-- HTML Form to input query and server selection -->
@@ -97,6 +102,8 @@
             <option value="whois.apnic.net">whois.apnic.net (Asien und Pazifikregion)</option>
             <option value="whois.afrinic.net">whois.afrinic.net (Afrika)</option>
             <option value="whois.lacnic.net">whois.lacnic.net (Lateinamerika und Karibik)</option>
+            <option value="whois.iana.org">whois.iana.org (IP Vergabestelle)</option>
+
           </select>
           <!-- Display user's IP address and link to query it -->
           <label for="IP">Deine IP lautet: <a href="index.php?query=<?php echo $_SERVER["REMOTE_ADDR"]; ?>"><?php echo $_SERVER["REMOTE_ADDR"]; ?></a></label>
@@ -110,8 +117,6 @@
 
           // Check if the $query value is a valid IP address
           if (filter_var($query, FILTER_VALIDATE_IP)) {
-            // Set the $whois_server variable to 'whois.ripe.net' for IP address queries
-            $whois_server = 'whois.ripe.net';
             $query_string = $query;
           } else {
             // Include a PHP file to query the domain using Whois
@@ -128,7 +133,7 @@
           $socket = fsockopen($whois_server, 43, $errno, $errstr, 10);
           if (!$socket) {
             // Output an error message if the socket connection fails
-            echo "<p>Fehler beim Verbinden zum Whois-Server: $errno - $errstr</p>";
+            echo "<div class=\"result\"><pre>Fehler beim Verbinden zum Whois-Server: $errno - $errstr</pre></div>";
             exit();
           }
 
