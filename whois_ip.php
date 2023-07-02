@@ -1,4 +1,5 @@
-<?php  
+<?php
+$domain = $_GET['query'];
 $ip_chunks = explode(".", $domain);
          $ip_range = $ip_chunks[0];
          switch ($ip_range) {
